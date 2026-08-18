@@ -4,3 +4,5 @@ pydantic
 langchain
 langchain-google-genai
 python-dotenv
+duckduckgo-search
+
