@@ -1,6 +1,9 @@
+import logging
 from fastapi import FastAPI, HTTPException
 from app.schemas.research import ResearchRequest, ResearchResponse
 from app.services.research_service import generate_basic_research
+
+logger = logging.getLogger("research_pilot")
 
 app = FastAPI(
     title="ResearchPilot API",
@@ -26,4 +29,8 @@ async def create_research(request: ResearchRequest):
             result=research_result
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"Endpoint failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, 
+            detail=f"Research generation failed: {str(e)}"
+        )
