@@ -18,16 +18,14 @@ async def health_check():
 @app.post("/api/v1/research", response_model=ResearchResponse, tags=["Research"])
 async def create_research(request: ResearchRequest):
     try:
+        # Function returns a fully constructed ResearchResponse instance
         research_result = await generate_basic_research(
             topic=request.topic, 
             depth=request.depth
         )
-        return ResearchResponse(
-            message="Research completed successfully",
-            topic=request.topic,
-            status="completed",
-            result=research_result
-        )
+        # Return the response directly without double-wrapping
+        return research_result
+
     except Exception as e:
         logger.error(f"Endpoint failed: {str(e)}")
         raise HTTPException(
